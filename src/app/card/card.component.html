@@ -1,0 +1,6 @@
+<div class="contact">
+    <div><img (click)="onClickFav($event)" [src]='favorite ? "/assets/images/star.png" : "/assets/images/favorite.png"'></div>
+    <div class="card-img"><img class="card-img" [src]="source"></div>
+    <h5 class="card-title mt-3">{{title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{text}}</h6>
+</div>

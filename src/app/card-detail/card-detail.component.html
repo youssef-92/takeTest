@@ -1,0 +1,94 @@
+<div class="page">
+  <div class="mb-4">
+    <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="cercle p-0" style="background-color: #d2dfe6">
+            <img class="icon" src="../assets/images/blip.png" />
+          </div>
+          <div class="col-7 pl-2 pr-0">
+            <h5 class="">{{ name }}</h5>
+            <h6 class="thin-text text-muted">id: {{ shortName }}</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 pt-3 date-text text-muted">
+        Created at {{ date | date: "dd/MM/yyyy" }}
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="mt-3 mb-4">
+    <div class="row">
+      <div class="col-9">
+        <div class="row">
+          <div class="p-3 col-4"><div class="card-data p-5">
+            <h6 class="thin-text-time text-muted">Region and idiom</h6>
+            <h6 class="thin-text-time text-muted mt-1">{{language}} ({{languageCode}})</h6>
+            <h6 class="thin-text-time text-muted mt-3">Timezone:</h6>
+            <h6 class="thin-text-time text-muted mt-1">(UTC {{timeZone}}) {{cityName}}</h6>
+          </div></div>
+          <div class="p-3 pt-0 col-8">
+            <div class="card-data p-5">
+              <div class="cercle" style="background-color: #2cc3d5">
+                <img class="icon" src="../assets/images/user.png" />
+              </div>
+
+              <div class="data">
+                <h5>{{ userActive }}</h5>
+                <h6 class="thin-text text-muted">Usuário ativo</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="px-3 pt-2 pb-3 pt-0 col-8">
+            <div class="card-data p-5">
+              <div class="cercle" style="background-color: #4dcb7b">
+                <img class="icon" src="../assets/images/union.png" />
+              </div>
+              <div class="data">
+                <h5>{{ messagesReceived }}</h5>
+                <h6 class="thin-text text-muted">Mensagens recebidas</h6>
+              </div>
+            </div>
+          </div>
+          <div class="px-3 pt-2 pb-3 pt-0 col-4">
+            <div class="card-data p-5">
+              <div class="cercle" style="background-color: #517bf2">
+                <img class="icon" src="../assets/images/sent.png" />
+              </div>
+
+              <div class="data">
+                <h5>{{ messagesSent }}</h5>
+                <h6 class="thin-text text-muted">Mensagens enviadas</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="row">
+          <img class="col-12" src="../assets/images/plano.png" />
+          <h6 class="thin-text text-muted col-12" style="text-align: center">
+            Status account
+          </h6>
+          <h4 class="col-12" style="text-align: center">Free</h4>
+          <div class="col-12 mt-4" style="text-align: center">
+            <button type="button" class="btn button">Update account</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row" style="justify-content: center">
+    <h6 class="thin-text-termos text-muted">
+      ©2019, BLiP Todos os direitos reservados |
+    </h6>
+    <h6 class="thin-text-termos text-muted">
+      <div style="font-weight: 700"> Termos de Uso</div>
+    </h6>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="star"><img
+  (click)="onClickFav($event)"
+  [src]="favorite ? '/assets/images/star.png' : '/assets/images/favorite.png'"
+/></div>
+<div class="contact">
+  <div class="row">
+    <div class="col-6">
+      <div class="card-img pt-2"><img class="card-img" [src]="source" /></div>
+      <h4 class="name">{{name}}</h4>
+    </div>
+    <h6 class="card-date col-6 pr-4 pt-1 my-3 text-muted">
+      created at {{ date | date: "dd/MM/yyyy" }}
+    </h6>
+  </div>
+</div>

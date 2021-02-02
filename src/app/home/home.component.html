@@ -1,0 +1,88 @@
+<div class="page">
+<section class="col-12">
+
+  <div class="row">
+    <span class="chatbot  col-4 pl-0">My chatbots</span>
+  <div class="col-8 pr-0" >
+    <div class="row" style="justify-content:flex-end;">
+    <input name="search" class="form-control mt-2 col-4" (keyup)="onKey($event)" id="typeahead-basic" type="text" [(ngModel)]="model" [ngbTypeahead]="search" placeholder="Search" />
+
+
+    <Button (click)="sortByAlphabet()" type="button" class="btn button ml-1 mt-2">
+      Order by name</Button
+    >
+    <Button (click)="sortByDates()" type="button" class="btn button ml-1 mt-2">
+      Order By creation</Button
+    >
+    <div class="pt-2 mt-1 icon">
+      <img (click)="displayCard()" src="/assets/images/organize-blocks.png"/>
+    </div>
+    <div class="pt-2 mt-1 mr-3 icon">
+      <img (click)="displayList()" src="/assets/images/organize-list.png"/>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section [ngClass]=" displayStyle == 'card' ? 'd-block' : 'd-none' " >
+<div class="row my-5" *ngIf="contactsFav">
+  <span class="favorite col-12">Favorites</span>
+
+  <div class="col-2 mt-3" *ngFor="let contact of contactsFav">
+    <app-card
+      (click)="onRedirection(contact)"
+      (favoriteEvent)="onFavorite(contact)"
+      [title]="contact.name"
+      [source]="contact.image"
+      [text]="contact.shortName"
+      [favorite]="contact.favorite"
+    ></app-card>
+  </div>
+</div>
+<hr />
+<div class="row my-5 " *ngIf="contactsNotFav">
+  <div class="col-2 mt-3" *ngFor="let contact of contactsNotFav">
+    <app-card
+      (click)="onRedirection(contact)"
+      (favoriteEvent)="onFavorite(contact)"
+      [title]="contact.name"
+      [source]="contact.image"
+      [text]="contact.shortName"
+      [favorite]="contact.favorite"
+    ></app-card>
+  </div>
+</div>
+</section>
+
+
+<section [ngClass]="displayStyle == 'list' ? 'd-block' : 'd-none' " >
+  <div class="row my-5" *ngIf="contactsFav">
+    <span class="favorite col-12 ">Favorites</span>
+    <div class="col-12 mt-3" *ngFor="let contact of contactsFav">
+      <app-long-card
+        (click)="onRedirection(contact)"
+        (favoriteEvent)="onFavorite(contact)"
+        [source]="contact.image"
+        [date]="contact.created"
+        [favorite]="contact.favorite"
+        [name]="contact.name"
+      ></app-long-card>
+    </div>
+  </div>
+  <hr/>
+  <div class="row my-5" *ngIf="contactsNotFav">
+    <div class="col-12 mt-3" *ngFor="let contact of contactsNotFav">
+      <app-long-card
+        (click)="onRedirection(contact)"
+        (favoriteEvent)="onFavorite(contact)"
+        [source]="contact.image"
+        [date]="contact.created"
+        [favorite]="contact.favorite"
+        [name]="contact.name"
+      ></app-long-card>
+    </div>
+  </div>
+  </section>
+  <div class="add"><img class="add-img" src="/assets/images/add.png" ></div>
+</div>
