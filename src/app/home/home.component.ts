@@ -4,7 +4,6 @@ import { Contact } from '../interfaces/objects';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',

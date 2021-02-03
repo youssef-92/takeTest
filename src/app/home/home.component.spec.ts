@@ -1,6 +1,7 @@
 import { HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing'
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { Contact } from '../interfaces/objects';
 
@@ -58,24 +59,9 @@ describe('HomeComponent', () => {
   let httpMock:HttpTestingController;
 
 
-
-  it('should be hello',()=>{
-    expect('hello').toBe('hello')
-  })
-it('is testing the http request and it should return an array of contacts',() =>{
-  let mockList = mockContactsList
-  component.getContacts().subscribe(res=>{
-    expect(res.length).toBe(2)
-    expect(res).toEqual(mockList)
-  })
-const request = httpMock.expectOne(`/assets/data.json`)
-expect(request.request.method).toBe('GET')
-request.flush(mockList)
-})
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule,RouterTestingModule],
       declarations: [ HomeComponent ],
       providers:[HttpClient
 
@@ -91,14 +77,17 @@ request.flush(mockList)
     fixture.detectChanges();
   });
 
+  it('is testing the http request and it should return an array of contacts',() =>{
+    let mockList = mockContactsList
+
+  const request = httpMock.expectOne(`/assets/data.json`).flush(mockList);
+ // expect(request.request.method).toBe("GET");
+  debugger
+  })
+
   afterEach(()=>{
     httpMock.verify()}
   )
-
-
-
-
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
