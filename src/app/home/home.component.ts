@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Contact } from '../interfaces/objects';
+import { Contact } from '../models/contact';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { AllContactService } from '../services/all-contact.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +11,11 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
   styleUrls: ['./home.component.sass'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private route: Router, private http: HttpClient) {}
+  constructor(
+    private route: Router,
+    private http: HttpClient,
+    private allcontacts: AllContactService
+  ) {}
   displayStyle: string = 'card';
   favorite: Boolean = false;
   allContacts: Contact[] = [];
@@ -26,51 +30,30 @@ export class HomeComponent implements OnInit {
   public model: any;
 
   ngOnInit() {
-    this.getContacts().subscribe((res) => {
+    this.allcontacts.getContacts().subscribe((res) => {
       this.contactsNotFav = [...res];
       this.backNotFav = [...res];
       this.allContacts = [...res];
     });
   }
 
-  getContacts(): Observable<Contact[]> {
-    return this.http.get<Contact[]>('/assets/data.json');
+  onFavorite(element: Contact) {
+    element.favorite = !element.favorite;
+    this.updateList();
   }
 
-  onFavorite(element: Contact) {
-    let index = -1;
-    if (element.favorite==true) {
-      element.favorite = false;
-      index = this.contactsFav.indexOf(element);
-      this.contactsNotFav.push(element);
-      this.backNotFav.push(element);
-      if (index !== -1) {
-        this.contactsFav.splice(index, 1);
-      }
-    } else {
-      element.favorite = true;
-      index = this.contactsNotFav.indexOf(element);
-      this.contactsFav.push(element);
-      this.backFav.push(element);
-      if (index !== -1) {
-        this.contactsNotFav.splice(index, 1);
-        this.backNotFav.splice(index, 1);
-      }
-    }
+  updateList() {
+    let filtred = this.allContacts.filter(
+      (c) =>
+        !this.model ||
+        c.name.toLowerCase().indexOf(this.model.toLowerCase()) >= 0
+    );
+    this.contactsFav = filtred.filter((c) => c.favorite);
+    this.contactsNotFav = filtred.filter((c) => !c.favorite);
   }
+
   onRedirection(contact: Contact) {
-    this.route.navigateByUrl(`home/card-detail/${contact.shortName}`, {
-      state: {
-        shortName: contact.shortName,
-        name: contact.name,
-        messagesReceived: contact.analytics.message.received,
-        date: contact.created,
-        messagesSent: contact.analytics.message.sent,
-        userActive: contact.analytics.user.actived,
-        totalUser: contact.analytics.user.total,
-        culture: contact.culture,
-      },
-    });
+    this.route.navigateByUrl(`home/card-detail/${contact.shortName}`);
   }
   displayCard() {
     this.displayStyle = 'card';
@@ -80,26 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   onKey(event: any) {
-    if (event.key == 'Enter') {
-      let wordFav = this.filter(this.model, this.contactsFav);
-      this.contactsFav.forEach((element: Contact) => {
-        if (element.name == wordFav[0]) {
-          this.contactsFav = [];
-          this.contactsFav.push(element);
-        }
-      });
-
-      let wordNotFav = this.filter(this.model, this.contactsNotFav);
-      this.contactsNotFav.forEach((element: Contact) => {
-        if (element.name == wordNotFav[0]) {
-          this.contactsNotFav = [];
-          this.contactsNotFav.push(element);
-        }
-      });
-    } else if (event.key == 'Backspace') {
-      this.contactsFav = this.backFav;
-      this.contactsNotFav = this.backNotFav;
-    }
+    this.updateList();
   }
 
   sortByAlphabet() {
@@ -123,23 +87,4 @@ export class HomeComponent implements OnInit {
 
     return c < d ? -1 : c > d ? 1 : 0;
   }
-
-  filter(value: string, array: any): any[] {
-    const filterValue = value.toLowerCase();
-    return array
-      .map((contact: any) => contact.name)
-      .filter((item: string) => item.toLowerCase().includes(filterValue));
-  }
-
-  search = (text$: Observable<string>) =>
-    text$.pipe(
-      distinctUntilChanged(),
-      map((term) =>
-        term.length < 2
-          ? []
-          : this.allContacts
-              .map((contact) => contact.name)
-              .filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1)
-      )
-    );
 }

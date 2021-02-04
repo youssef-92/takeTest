@@ -1,3 +1,5 @@
+import { Analytics } from "./analytics";
+
 export interface Contact{
     shortName: string
     name: string
@@ -12,17 +14,5 @@ export interface Contact{
     favorite?:boolean
 }
 
-export interface Analytics {
-  user:User
-  message: Message
-}
 
-export interface User {
-  total: number
-  actived: number
-}
 
-export interface Message {
-  received:number
-  sent: number
-}

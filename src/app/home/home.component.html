@@ -5,7 +5,7 @@
     <span class="chatbot  col-4 pl-0">My chatbots</span>
   <div class="col-8 pr-0" >
     <div class="row" style="justify-content:flex-end;">
-    <input name="search" class="form-control mt-2 col-4" (keyup)="onKey($event)" id="typeahead-basic" type="text" [(ngModel)]="model" [ngbTypeahead]="search" placeholder="Search" />
+    <input name="search" class="form-control mt-2 col-4" (keyup)="onKey($event)"  type="text" [(ngModel)]="model" placeholder="Search" />
 
 
     <Button (click)="sortByAlphabet()" type="button" class="btn button ml-1 mt-2">
